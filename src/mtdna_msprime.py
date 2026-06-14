@@ -55,8 +55,3 @@ def prob_A_above_threshold(times, N, reps, threshold, SPLIT_TIME, p_A):
         
      
     return results
-
-
-            
-            
-            

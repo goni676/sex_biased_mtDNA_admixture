@@ -1,16 +1,13 @@
 import numpy as np
 from scipy.stats import binom
 
+"""
+    - Calculates P(K_X >= 0.8N | K_0 = p*N)
+    - Memory Structure - At each generation t, dist[k] represents P(K_t = k) -
+      the probability of having exactly k haplotypes from population A in generation t.
+"""
+
 def theoretical_probability(X, N, p, threshold=0.8):
-    """
-    Computes
-
-        P(K_X >= threshold * N | K_0 = pN)
-
-    under the Wright-Fisher drift model:
-
-        K_t | K_{t-1}=k ~ Bin(N, k/N)
-    """
 
     # Initial state
     k0 = int(round(p * N))
@@ -19,7 +16,6 @@ def theoretical_probability(X, N, p, threshold=0.8):
     dist = np.zeros(N + 1)
     dist[k0] = 1.0
 
-    # Propagate the distribution for X generations
     for _ in range(X):
 
         new_dist = np.zeros(N + 1)
@@ -28,13 +24,13 @@ def theoretical_probability(X, N, p, threshold=0.8):
 
             if dist[k] == 0:
                 continue
-
+            # Compute next generation transition probabilities: K_t ~ Bin(N, k/N) using `binom.pmf`    
             probs = binom.pmf(
                 np.arange(N + 1),
                 N,
                 k / N,
             )
-
+            # Multiply by dist[k] (the probability of being in state k today)
             new_dist += dist[k] * probs
 
         dist = new_dist
@@ -58,3 +54,7 @@ def theoretical_probability_by_time(times, N, p_A, threshold=0.8):
         results[t] = round(prob, 3)
 
     return results
+
+
+
+
