@@ -71,12 +71,10 @@ project/
 │   ├── 01_drift_prob_results.ipynb
 │   └── 02_sex_bias_results.ipynb
 │
-├── src/
-│   ├── __init__.py
-│   ├── mtdna_msprime.py
-│   └── mtdna_theory.py
-│
-└── results/
+└── src/
+    ├── __init__.py
+    ├── mtdna_msprime.py
+    └── mtdna_theory.py
 ```
 
 ### notebooks/
