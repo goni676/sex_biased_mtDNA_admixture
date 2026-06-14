@@ -29,7 +29,7 @@ $$
 >
 >**Given a population of $N$ mtDNA haplotypes originated from populations $A$ and $B$, where the initial mitochondrial contribution is biased toward population $A$, what are the chances of observing 80% A-derived mtDNA after $X$ generations?**
 >
-#### Theoretical model
+
 
 Let $K_t$ denote the number of A-derived mtDNA haplotypes after $t$ generations.
 
@@ -51,7 +51,7 @@ $$
 P\left(K_X \ge 0.8N \\middle|\ K_0 = M_A N\right)
 $$
 
-## msprime simulations
+### msprime simulations
 
 A demographic model is constructed using **msprime** with four populations: two source populations `A` and `B`, an admixed population `ADMIX`, and a common ancestral population `ANC`.
 
