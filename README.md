@@ -11,7 +11,7 @@ This project compares theoretical mathematical predictions and msprime simulatio
 >
 #### Theoretical model
 
-let $K_t$ denote the number of $A$-derived mtDNA haplotypes after $t$ generations, and let $p_t = K_t/N$ denote their frequency.
+let $K_t$ denote the number of $A$-derived mtDNA haplotypes after $t$ generations.
 
 The drift process is modeled as:
 
@@ -35,10 +35,10 @@ $$
 
 Let $K_t$ denote the number of A-derived mtDNA haplotypes after $t$ generations.
 
-Let $M_A$ denote the proportion of mothers from population A.
+Let $p_A$ denote the proportion of mothers from population A.
 
 $$
-K_0 = M_A \cdot N
+K_0 = p_A \cdot N
 $$
 
 Then, in each generation $t$:
@@ -50,7 +50,7 @@ $$
 The required probability is therefore:
 
 $$
-P\left(K_X \ge 0.8N \\middle|\ K_0 = M_A N\right)
+P\left(K_X \ge 0.8N \\middle|\ K_0 = p_A N\right)
 $$
 
 ### msprime simulations
@@ -59,7 +59,7 @@ A demographic model is constructed using **msprime** with four populations: two 
 
 The admixture event is modeled by assigning each mtDNA lineage from ADMIX to either `A` or `B` at the admixture time, which corresponds to the parameter $X$ in the mathematical formulation. Setting `record_migrations=True` makes it possible to recover, for each sampled mtDNA lineage, whether its ancestry traces back to population `A` or population `B`.
 
-The simulations are repeated 1000 times with different random seeds, and I estimate the probability of observing at least 80% A-derived mtDNA.
+For each admixture time (10, 20, 50, 100, and 150 generations ago) 1000 simulations are performed using different random seeds. The probability of observing at least **80% A-derived mtDNA** is then estimated as the fraction of simulations in which this condition is satisfied.
 
 ## Repository structure
 
@@ -102,3 +102,9 @@ Comparing the theoretical model and the msprime simulations for **Scenario 2**.
 
 - implementation of the theoretical drift model
 - calculation of theoretical probabilities
+
+## References
+
+- [msprime documentation — Demographic models](https://tskit.dev/msprime/docs/stable/demography.html)
+- [msprime documentation — API reference](https://tskit.dev/msprime/docs/stable/api.html)
+- [tskit documentation — Introduction](https://tskit.dev/tskit/docs/stable/introduction.html)
