@@ -2,15 +2,6 @@ import numpy as np
 from scipy.stats import binom
 
 def theoretical_probability(X, N, p, threshold=0.8):
-    """
-    Computes
-
-        P(K_X >= threshold * N | K_0 = pN)
-
-    under the Wright-Fisher drift model:
-
-        K_t | K_{t-1}=k ~ Bin(N, k/N)
-    """
 
     # Initial state
     k0 = int(round(p * N))
@@ -19,7 +10,6 @@ def theoretical_probability(X, N, p, threshold=0.8):
     dist = np.zeros(N + 1)
     dist[k0] = 1.0
 
-    # Propagate the distribution for X generations
     for _ in range(X):
 
         new_dist = np.zeros(N + 1)
