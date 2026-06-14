@@ -1,12 +1,16 @@
 # Sex-Biased mtDNA Admixture
 
-## Scenario 1 — No Initial Bias
+This project compares theoretical mathematical predictions and msprime simulations for the probability of observing extreme mtDNA ancestry proportions after an admixture event.
 
-The guiding question is:
+## Guiding Questions
 
-**Given a population of $N$ mtDNA haplotypes, 50:50 from two populations $A$ and $B$, what are the chances of observing 80% $A$-derived mtDNA after $X$ generations?**
+### Scenario 1 — No Initial Bias
+>
+>**Given a population of $N$ mtDNA haplotypes, 50:50 from two populations $A$ and $B$, what are the chances of observing 80% $A$-derived mtDNA after $X$ generations?**
+>
+#### Theoretical model
 
-Mathematically, let $K_t$ denote the number of $A$-derived mtDNA haplotypes after $t$ generations, and let $p_t = K_t/N$ denote their frequency.
+let $K_t$ denote the number of $A$-derived mtDNA haplotypes after $t$ generations, and let $p_t = K_t/N$ denote their frequency.
 
 The drift process is modeled as:
 
@@ -22,8 +26,10 @@ $$
 
 
 ### Scenario 2 - Initial mtDNA Bias
-
-**Given a population of N mtDNA haplotypes originated from populations A and B, where the initial mitochondrial contribution is biased toward population A, what are the chances of observing 80% A-derived mtDNA after X generations?**
+>
+>**Given a population of $N$ mtDNA haplotypes originated from populations $A$ and $B$, where the initial mitochondrial contribution is biased toward population $A$, what are the chances of observing 80% A-derived mtDNA after $X$ generations?**
+>
+#### Theoretical model
 
 Let $K_t$ denote the number of A-derived mtDNA haplotypes after $t$ generations.
 
@@ -33,20 +39,64 @@ $$
 K_0 = M_A \cdot N
 $$
 
-Then, in each generation $t$,
+Then, in each generation $t$:
 
 $$
 K_t \sim \mathrm{Bin}\left(N,\frac{K_{t-1}}{N}\right)
 $$
 
-The required probability is therefore
+The required probability is therefore:
 
 $$
 P\left(K_X \ge 0.8N \\middle|\ K_0 = M_A N\right)
 $$
 
-To my understanding, if we model sex bias alone, without drift, then we would not randomly sample $N$ haplotypes in each generation. Instead, the mtDNA proportion would remain constant, so that for every generation $t$,
+## msprime simulations
 
-$$
-p_t = M_A.
-$$
+A demographic model is constructed using **msprime** with four populations: two source populations `A` and `B`, an admixed population `ADMIX`, and a common ancestral population `ANC`.
+
+The admixture event is modeled by assigning each mtDNA lineage from ADMIX to either `A` or `B` at the admixture time, which corresponds to the parameter $X$ in the mathematical formulation. Setting `record_migrations=True` makes it possible to recover, for each sampled mtDNA lineage, whether its ancestry traces back to population `A` or population `B`.
+
+The simulations are repeated 1000 times with different random seeds, and I estimate the probability of observing at least 80% A-derived mtDNA.
+
+## Repository structure
+
+```text
+project/
+│
+├── notebooks/
+│   ├── 00_exploring_msprime.ipynb
+│   ├── 01_drift_prob_results.ipynb
+│   └── 02_sex_bias_results.ipynb
+│
+├── src/
+│   ├── __init__.py
+│   ├── mtdna_msprime.py
+│   └── mtdna_theory.py
+│
+└── results/
+```
+
+### notebooks/
+
+#### `00_exploring_msprime.ipynb`
+Exploring the demographic model, the admixture event, and the msprime data structures used to document ancestry.
+
+#### `01_drift_prob_results.ipynb`
+Comparing the theoretical model and the msprime simulations for **Scenario 1**.
+
+#### `02_sex_bias_results.ipynb`
+Comparing the theoretical model and the msprime simulations for **Scenario 2**.
+
+### src/
+
+#### `mtdna_msprime.py`
+
+- demographic model construction using msprime
+- ancestry simulation using msprime
+- estimation of probabilities from repeated simulations
+
+#### `mtdna_theory.py`
+
+- implementation of the theoretical drift model
+- calculation of theoretical probabilities
