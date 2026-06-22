@@ -14,6 +14,4 @@ For the **posterior**, we use the rule:
 
 $$p(\theta_i|D) = \frac{p(D|\theta_i) \cdot p(\theta_i)}{p(D)}$$
 
-Where:
-
-$$p(D) = \sum_{i=1}^{1000} p(D|\theta_i) \cdot p(\theta_i)$$
+$$p(D) = \sum_{i=1} p(D|\theta_i) \cdot p(\theta_i)$$
