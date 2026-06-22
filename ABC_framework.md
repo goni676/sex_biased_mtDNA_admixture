@@ -1,4 +1,4 @@
-## ABC Implementation Strategy for mtDNA Simulation
+## ABC framework
 
 Generate 1000 parameter vectors, denoted by $\theta_i$. Each parameter in $\theta_i$ is sampled from a uniform distribution over its specified range. Thus:
 
