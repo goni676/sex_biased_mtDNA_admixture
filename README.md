@@ -4,7 +4,7 @@ This project compares theoretical mathematical predictions and msprime simulatio
 
 ## Guiding Questions
 
-### Scenario 1 — No Initial Bias
+### Scenario 1 - No Initial Bias
 
 >
 >**Given a population of $N$ mtDNA haplotypes, 50:50 from two populations $A$ and $B$, what are the chances of observing 80% $A$-derived mtDNA after $X$ generations?**
