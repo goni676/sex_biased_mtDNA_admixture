@@ -1,6 +1,6 @@
 ## ABC framework
 
-Generate 1000 parameter vectors, denoted by $\theta_i$. Each parameter in $\theta_i$ is sampled from a uniform distribution over its range. Thus:
+Generate 500 parameter vectors, denoted by $\theta_i$. Each parameter in $\theta_i$ is sampled from a uniform distribution over its range. Thus:
 
 $$p(\theta_i) = \prod_{x \in \theta_i} p(x)$$
 
