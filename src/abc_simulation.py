@@ -4,11 +4,11 @@ import pandas as pd
 from pathlib import Path
 
 """
-========================================
-Demographic model and ancestry tracing
-========================================
-Defines the demographic model and runs an mtDNA ancestry simulation.
-'count_origin' counts how many samples originate from a specified population.
+==================
+Demographic model 
+==================
+Defines the demographic model and runs an mtDNA ancestry simulation
+'count_origin' counts how many samples originate from a specified population
 
 """
 
@@ -71,6 +71,11 @@ The sampling method is selected according to prior_type (uniform/normal)
 """
 
 def create_theta_normal(parameter_vector):
+
+    # Assuming the bounds define a symmetric 95% interval around mu=mean
+    # according to the standard normal distribution - lower and upper are ~1.96 sd from mu 
+    # sd = (upper-lower)/(2*1.96)
+    
     rng = np.random.default_rng()
     theta = {}
 
@@ -79,9 +84,10 @@ def create_theta_normal(parameter_vector):
             theta[parameter] = values
             continue
         lower, mean, upper = values
-        sd = (upper-lower) / (2 * 1.96)
+        sd = (upper-lower)/(2*1.96)
         sampled_value = rng.normal(loc=mean, scale=sd)
 
+        #keep sampling until the sampled value falls within the range
         while not lower <= sampled_value <= upper:
             sampled_value = rng.normal(mean, sd)
 
@@ -119,11 +125,14 @@ def simulate_theta_replicates(parameter_vectors, n_replicates, prior_type):
     success = 0
     parameter_vector = parameter_vectors[prior_type]
 
+    # create theta
     if prior_type == "uniform":
         theta = create_theta_uniform(parameter_vector)
     else:
         theta = create_theta_normal(parameter_vector)
 
+    # Run 100 simulations using the same theta and different seeds
+    # and count those where p_EUR falls within the acceptance range
     for seed in range(1, n_replicates+1):
         ts = define_demography_AFR_EUR(theta, seed)
         cnt_EUR = count_origin("EUR", ts, theta["ADMIX_TIME"])/1000
